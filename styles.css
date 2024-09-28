@@ -1,0 +1,595 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+   
+}
+main {
+    flex: 1; /* This makes the main content grow to fill the space */
+}
+
+.footer {
+    background-color: #222;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: relative; /* Keep it as relative unless you want it fixed */
+    width: 100%;
+    bottom: 0;
+}
+nav {
+    background-color: #222;
+    padding: 15px 30px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.5s ease;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav ul li {
+    display: inline-block;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #f0e68c;
+    transform: scale(1.1);
+}
+
+nav .login-btn {
+    background-color: #f0e68c;
+    color: #222;
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+nav .login-btn:hover {
+    background-color: #ddd;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        display: none;
+        gap: 0;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav .menu-toggle {
+        display: block;
+        cursor: pointer;
+    }
+}
+
+nav.scrolled {
+    background-color: #444;
+}
+
+.menu-toggle {
+    display: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Video Section */
+#home {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+#home video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+#home h1 {
+    font-size: 4rem;
+    color: white;
+    animation: fadeIn 2s ease-in-out;
+    z-index: 1;
+}
+
+#home p {
+    font-size: 1.5rem;
+    color: #ddd;
+    animation: fadeInUp 2.5s ease-in-out;
+    z-index: 1;
+}
+
+#home .cta-btn {
+    background-color: #f0e68c;
+    color: #222;
+    padding: 15px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    display: inline-block;
+    animation: fadeInUp 3s ease-in-out;
+    z-index: 1;
+}
+
+#home .cta-btn:hover {
+    background-color: #ddd;
+}
+
+/* Animations */
+/* @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(40px); }
+    100% { opacity: 1; transform: translateY(0); }
+} */
+
+section {
+    padding: 80px 0;
+    text-align: center;
+    height: 100vh;
+}
+section#about {
+    padding: 100px 20px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+#about h1 {
+    font-size: 3rem;
+    color: #333;
+    margin-bottom: 20px;
+    position: relative;
+    animation: fadeInDown 1.5s ease-in-out;
+}
+
+#about p {
+    font-size: 1.25rem;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 40px auto;
+    line-height: 1.8;
+    animation: fadeIn 2s ease-in-out;
+}
+
+/* Cultural Grid */
+.culture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.culture-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+.culture-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    border-radius: 15px;
+}
+
+.culture-item:hover img {
+    transform: scale(1.2);
+}
+
+.culture-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(15, 15, 15, 0.274);
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.75rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+.culture-item:hover .overlay {
+    opacity: 1;
+}
+.overlay a {
+    color: #fff;
+    font-size: 1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1.5px; /* Slight letter spacing for elegance */
+    text-align: center;
+    padding: 10px 20px;
+    border: 2px solid white; /* Border around the text */
+    border-radius: 25px; /* Rounded border */
+    transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  }
+  
+  /* Interactive hover effect on the text */
+  .overlay a:hover {
+    background-color: rgba(0, 0, 0, 0.599);
+    color: white;
+    transform: scale(1.1); /* Scale text on hover */
+  }
+
+  /* Historical Places Section */
+/* Historical Places Section */
+.historical-section {
+    padding: 60px;
+    background-color: #fff; /* Changed background to white */
+    color: black; /* Changed font color to black */
+    text-align: center;
+}
+
+.historical-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333; /* Darker font for better readability */
+    animation: fadeInDown 1s ease-in-out;
+}
+
+.historical-section p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #555; /* Dark grey for a smoother look */
+}
+
+.places-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+.place-card {
+    background-color: #f9f9f9; /* Light grey card background */
+    border-radius: 15px;
+    overflow: hidden;
+    width: calc(33.333% - 30px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer shadow */
+    transition: transform 0.3s ease;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.place-card:hover {
+    transform: translateY(-10px);
+}
+
+.place-image img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.place-content {
+    padding: 20px;
+    text-align: left;
+    color: #333; /* Darker font inside the cards */
+}
+
+.place-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #111; /* Darker font for better contrast */
+}
+
+.place-content p {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.place-content .cta-button {
+    background-color: #111; /* Dark button color */
+    color: #fff; /* White text on the button */
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.place-content .cta-button:hover {
+    background-color: #555; /* Slightly lighter on hover */
+    transform: scale(1.1);
+}
+
+/* Freedom Fighters Section */
+.freedom-fighters-section {
+    padding: 60px;
+    background-color: #fff; /* White background */
+    color: black; /* Black text */
+    text-align: center;
+}
+
+.freedom-fighters-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #333; /* Darker font color */
+    animation: fadeInDown 1s ease-in-out;
+}
+
+.freedom-fighters-section p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    color: #555; /* Softer grey text */
+}
+
+.fighter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+.fighter-image img {
+    width: 400px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.fighter-description {
+    max-width: 600px;
+    text-align: left;
+}
+
+.fighter-description h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #111;
+}
+
+.fighter-description p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.fighter-image img:hover {
+    transform: scale(1.05);
+}
+
+/* Responsive Design Overrides */
+
+/* For tablets (widths less than 1024px) */
+@media (max-width: 1024px) {
+    .place-card {
+        width: calc(50% - 30px);
+    }
+
+    #home h1 {
+        font-size: 3rem;
+    }
+
+    #home p {
+        font-size: 1.25rem;
+    }
+
+    .fighter-image img {
+        width: 100%;
+    }
+}
+
+/* For mobile devices (widths less than 768px) */
+@media (max-width: 768px) {
+    /* Navbar */
+    nav ul {
+        flex-direction: column;
+        display: none;
+        gap: 0;
+    }
+
+    nav ul.active {
+        display: flex;
+    }
+
+    nav .menu-toggle {
+        display: block;
+    }
+
+    /* Home Section */
+    #home {
+        height: auto; /* Automatically adjust height */
+        padding: 100px 0; /* Add padding to prevent content overlap */
+    }
+
+    #home h1 {
+        font-size: 2.5rem;
+    }
+
+    #home p {
+        font-size: 1rem;
+    }
+
+    .cta-btn {
+        padding: 10px 20px;
+    }
+
+    /* Cultural Section */
+    #about h1 {
+        font-size: 2rem;
+    }
+
+    .culture-item {
+        width: 100%; /* Ensure full width */
+        height: auto; /* Prevent fixed height issues */
+    }
+
+    .culture-grid {
+        padding: 0 20px;
+    }
+
+    .overlay a {
+        font-size: 1.2em;
+        padding: 8px 16px;
+    }
+
+    /* Historical Places */
+    .places-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .place-card {
+        width: 100%; /* Full width for mobile */
+    }
+
+    .fighter-image img {
+        width: 100%; /* Full width for images */
+    }
+}
+
+/* For small mobile devices (widths less than 600px) */
+@media (max-width: 600px) {
+    .culture-grid {
+        padding: 0 20px;
+    }
+
+    .culture-item {
+        width: 100%;
+        height: auto;
+    }
+
+    .cta-btn {
+        font-size: 1rem;
+    }
+
+    /* Ensure sections stack properly */
+    section {
+        padding: 60px 0;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .place-card {
+        width: calc(50% - 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    .place-card {
+        width: 100%;
+    }
+}
+
+  @media (max-width: 600px) {
+    .culture-item {
+      width: 250px;
+      height: 200px;
+    }
+
+    .culture-grid{
+        padding: 0 49px;
+    }
+  
+    .overlay a {
+      font-size: 1.2em;
+      padding: 8px 16px;
+    }
+  }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #about h1 {
+        font-size: 2rem;
+    }
+
+    .team-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+    0% { opacity: 0; transform: translateY(-20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInUp {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+
+
+
+.Footer{
+    position: relative;
+}
+
+.footer {
+    position: absolute;
+    text-align: center;
+    padding: 20px;
+    background-color: #7ea43a;
+    color: white;
+  }
+  

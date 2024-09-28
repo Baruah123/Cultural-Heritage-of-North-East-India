@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Nearby Popular Places</title>
+
+    <!-- Leaflet.js CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        main {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+            animation: slideInUp 1.5s ease-out;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        footer p {
+            font-size: 0.9em;
+            margin: 0;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            #map {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            #map {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Explore Popular Places Near You</h1>
+    </header>
+
+    <main>
+        <!-- Leaflet.js Map -->
+        <div id="map"></div>
+    </main>
+
+    <footer>
+        <p> Designed with ❤️ by me</p>
+    </footer>
+
+    <!-- Leaflet.js JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize the map
+        const map = L.map('map').setView([26.1673, 91.7086], 12); // Center on one of the locations initially
+    
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+    
+        // Predefined cultural places in Guwahati
+        var locations = [
+            {name: "Kamakhya Temple", lat: 26.1673, lng: 91.7086},
+            {name: "Umananda Temple", lat: 26.1833, lng: 91.7391},
+            {name: "Assam State Museum", lat: 26.1854, lng: 91.7539},
+            {name: "Guwahati Zoo (Assam State Zoo)", lat: 26.1424, lng: 91.8031},
+            {name: "Pobitora Wildlife Sanctuary", lat: 26.2716, lng: 92.0470},
+            {name: "Brahmaputra River Cruise", lat: 26.1844, lng: 91.7458},
+            {name: "Srimanta Sankardev Kalakshetra", lat: 26.1483, lng: 91.8022},
+            {name: "Basistha Ashram", lat: 26.1227, lng: 91.8005},
+            {name: "Guwahati Planetarium", lat: 26.1894, lng: 91.7395},
+            {name: "Nehru Park", lat: 26.1878, lng: 91.7529},
+            {name: "Fancy Bazaar", lat: 26.1838, lng: 91.7406},
+            {name: "Navagraha Temple", lat: 26.1839, lng: 91.7597},
+            {name: "Dighalipukhuri Park", lat: 26.1866, lng: 91.7536}
+        ];
+    
+        // Add markers for predefined locations
+        locations.forEach(location => {
+            L.marker([location.lat, location.lng]).addTo(map)
+                .bindPopup(`<b>${location.name}</b>`);
+        });
+    
+        // Geolocation API to get user's location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const userLocation = [position.coords.latitude, position.coords.longitude];
+                map.setView(userLocation, 12);
+    
+                // Add marker for user's location
+                L.marker(userLocation).addTo(map)
+                    .bindPopup("You are here").openPopup();
+    
+                // Draw a 10 km radius circle around the user's location
+                L.circle(userLocation, {
+                    color: 'red',
+                    fillColor: '#FF0000',
+                    fillOpacity: 0.2,
+                    radius: 20000 // 10 km radius (in meters)
+                }).addTo(map);
+    
+                // Query Overpass API for cultural places within 10 km
+                const overpassUrl = `
+                    https://overpass-api.de/api/interpreter?data=[out:json];(
+                        node["tourism"="museum"](around:10000,${userLocation[0]},${userLocation[1]});
+                        node["amenity"="theatre"](around:10000,${userLocation[0]},${userLocation[1]});
+                        node["historic"](around:10000,${userLocation[0]},${userLocation[1]});
+                        node["tourism"="artwork"](around:10000,${userLocation[0]},${userLocation[1]});
+                    );out;`;
+    
+                fetch(overpassUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        const places = data.elements;
+    
+                        // Select 10 cultural places (or fewer if less than 10 found)
+                        const selectedPlaces = places.slice(0, 10);
+    
+                        selectedPlaces.forEach(place => {
+                            const placeLocation = [place.lat, place.lon];
+                            const placeName = place.tags.name || 'Unnamed Cultural Place';
+                            const placeType = place.tags.tourism || place.tags.amenity || place.tags.historic || 'Cultural place';
+    
+                            // Add markers for each cultural place
+                            L.marker(placeLocation).addTo(map)
+                                .bindPopup(`<b>${placeName}</b><br>Type: ${placeType}`);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching cultural places:', error);
+                    });
+    
+            }, function () {
+                alert("Geolocation failed. Please enable location services.");
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    </script>
+    
+    
+
+</body>
+</html>
